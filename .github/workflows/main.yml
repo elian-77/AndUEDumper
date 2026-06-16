@@ -18,7 +18,7 @@ jobs:
 
       - name: Build
         env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           cd AndUEDumper
           echo "1" | bash build.sh
@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: UEDumper-x86_64
-          path: "**/x86_64/*"
+          path: "AndUEDumper/cmake_build/x86_64/*"
