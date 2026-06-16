@@ -28,8 +28,7 @@ UEVarsInitStatus IGameProfile::InitUEVars()
     auto ue_elf = GetUnrealELF();
     if (!ue_elf.isValid())
     {
-        LOGE("Couldn't find a valid UE ELF in target process maps.");
-        return UEVarsInitStatus::ERROR_LIB_NOT_FOUND;
+        LOGW("UE ELF not fully valid, trying to continue anyway...");
     }
 
     if (!ArchSupprted())
