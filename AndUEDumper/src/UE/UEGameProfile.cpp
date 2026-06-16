@@ -243,11 +243,19 @@ ElfScanner IGameProfile::GetUnrealELF() const
         }
     }
 
-    for (const auto &lib : cUELibNames)
+    // FALLBACK: read base from maps directly (for encrypted ELF headers)
+    auto maps = KittyMemoryEx::getAllMaps(kMgr.processID());
+    for (auto &map : maps)
     {
-        ue_elf = kMgr.elfScanner.findElf(lib);
-        if (ue_elf.isValid())
-            return ue_elf;
+        for (const auto &lib : cUELibNames)
+        {
+            if (map.pathname.find(lib) != std::string::npos && map.offset == 0)
+            {
+                ue_elf = kMgr.elfScanner.createWithMap(map);
+                if (ue_elf.base())
+                    return ue_elf;
+            }
+        }
     }
 
     return ue_elf;
