@@ -299,7 +299,7 @@ void UEDumper::GatherUObjects(BufferFmt &logsBufferFmt, BufferFmt &objsBufferFmt
                 auto packageObj = object.GetPackageObject();
                 for (auto &pkg : packages)
                 {
-                    if (pkg.first == packageObj)
+                    if (pkg.first == packageObj.object)
                     {
                         pkg.second.push_back(object);
                         found = true;
