@@ -223,48 +223,32 @@ ElfScanner IGameProfile::GetUnrealELF() const
     static const std::vector<std::string> cUELibNames = GetUESoNames();
 
     static ElfScanner ue_elf{};
-    if (emulatedSo.ptr)
-    {
-        ue_elf = kMgr.elfScanner.createWithSoInfo(emulatedSo);
+    if (ue_elf.isValid())
         return ue_elf;
-    }
 
-    // find via linker or nativebridge solist
-    // some games like farlight remove ELF header from lib
     for (const auto &lib : cUELibNames)
     {
         auto nativeSo = kMgr.linkerScanner.findSoInfo(lib);
         if (nativeSo.ptr)
         {
             ue_elf = kMgr.elfScanner.createWithSoInfo(nativeSo);
-            if (emulatedSo.ptr)
-            {
-                ue_elf = kMgr.elfScanner.createWithSoInfo(emulatedSo);
+            if (ue_elf.isValid())
                 return ue_elf;
-            }
         }
 
         auto emulatedSo = kMgr.nbScanner.findSoInfo(lib);
         if (emulatedSo.ptr)
         {
             ue_elf = kMgr.elfScanner.createWithSoInfo(emulatedSo);
-            if (emulatedSo.ptr)
-            {
-                ue_elf = kMgr.elfScanner.createWithSoInfo(emulatedSo);
-                return ue_elf;
-            }
+            return ue_elf;
         }
     }
 
-    // find from /maps
     for (const auto &lib : cUELibNames)
     {
         ue_elf = kMgr.elfScanner.findElf(lib);
-        if (emulatedSo.ptr)
-        {
-            ue_elf = kMgr.elfScanner.createWithSoInfo(emulatedSo);
+        if (ue_elf.isValid())
             return ue_elf;
-        }
     }
 
     return ue_elf;
