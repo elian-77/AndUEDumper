@@ -36,7 +36,7 @@ UEVarsInitStatus IGameProfile::InitUEVars()
         if (GetUnrealELF().header().e_machine > 0 && !ue_elf.isFixedBySoInfo())
         {
             LOGE("Architecture ( 0x%x ) is not supported for this game.", ue_elf.header().e_machine);
-            return UEVarsInitStatus::ARCH_NOT_SUPPORTED;
+            LOGW("Architecture not supported but continuing anyway...");
         }
         else
         {
