@@ -1,24 +1,24 @@
 name: Build AndUEDumper x86_64
-
 on:
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Android NDK
         uses: nttld/setup-ndk@v1
         with:
           ndk-version: r25c
 
+      - name: Setup CMake
+        run: sudo apt-get install -y cmake ninja-build
+
       - name: Build
         run: |
           cd AndUEDumper
-          chmod +x build.sh
-          bash build.sh
+          echo "1" | bash build.sh
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
