@@ -1,4 +1,4 @@
-name: Build AndUEDumper x86_64
+name: Build AndUEDumper all ABIs
 on:
   workflow_dispatch:
 jobs:
@@ -8,25 +8,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-
       - name: Setup Android NDK
         id: setup-ndk
         uses: nttld/setup-ndk@v1
         with:
           ndk-version: r23b
-
       - name: Setup Ninja
         run: sudo apt-get install -y ninja-build
-
       - name: Build
         env:
           NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           cd AndUEDumper
           echo "1" | bash build.sh
-
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: UEDumper-x86_64
-          path: "AndUEDumper/cmake_build/x86_64/*"
+          name: UEDumper-all
+          path: "AndUEDumper/cmake_build/"
