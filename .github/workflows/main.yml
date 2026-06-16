@@ -21,7 +21,7 @@ jobs:
           bash build.sh
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: UEDumper-x86_64
           path: "**/x86_64/*"
